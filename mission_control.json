@@ -32,6 +32,18 @@
       "assigned_agent": "DEVELOPER",
       "priority": "normal",
       "completed_at": "2026-06-09T03:38:38.551Z"
+    },
+    {
+      "description": "build api",
+      "assigned_agent": "DEVELOPER",
+      "priority": "normal",
+      "completed_at": "2026-06-09T03:46:46.396Z"
+    },
+    {
+      "description": "fix bug",
+      "assigned_agent": "DEVELOPER",
+      "priority": "normal",
+      "completed_at": "2026-06-09T03:46:58.769Z"
     }
   ]
 }

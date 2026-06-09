@@ -16,6 +16,25 @@ let [,, taskDescription, agent] = process.argv;
 
 // Load data
 const data = JSON.parse(fs.readFileSync(MC_PATH, 'utf8'));
+// Handle "leaderboard" command
+if (taskDescription === "leaderboard") {
+    const statsData = JSON.parse(
+        fs.readFileSync("./stats/agents.json", "utf8")
+    );
+
+    console.log("\n🏆 AGENT LEADERBOARD 🏆\n");
+
+    const sorted = Object.entries(statsData)
+        .sort((a, b) => b[1].completed - a[1].completed);
+
+    sorted.forEach(([agent, info], index) => {
+        console.log(
+            `${index + 1}. ${agent} - ${info.completed} completed tasks`
+        );
+    });
+
+    process.exit(0);
+}
 
 // Handle "status" command
 if (taskDescription === 'status') {
