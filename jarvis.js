@@ -35,7 +35,15 @@ if (taskDescription === 'done') {
     if (!data.active_sprint) {
         console.log("No active task to complete.");
     } else {
-        data.history.push({
+       memory.remember(
+  "lessons",
+  `Completed task: ${data.active_sprint.current_task.description} using agent ${data.active_sprint.current_task.assigned_agent}`,
+  [
+    "completed-task",
+    data.active_sprint.current_task.assigned_agent.toLowerCase()
+  ]
+);
+         data.history.push({
             ...data.active_sprint.current_task,
             completed_at: new Date().toISOString()
         });
