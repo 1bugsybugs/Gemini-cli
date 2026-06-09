@@ -10,6 +10,7 @@ const client = new OpenAI({
 const fs = require('fs');
 const path = require('path');
 const memory = require("./core/memory-engine");
+const stats = require("./core/stats");
 const MC_PATH = path.join(process.env.HOME, 'jarvis', 'mission_control.json');
 let [,, taskDescription, agent] = process.argv;
 
@@ -32,27 +33,33 @@ if (taskDescription === 'status') {
 
 // Handle "done" command
 if (taskDescription === 'done') {
-    if (!data.active_sprint) {
-        console.log("No active task to complete.");
-    } else {
-       memory.remember(
-  "lessons",
-  `Completed task: ${data.active_sprint.current_task.description} using agent ${data.active_sprint.current_task.assigned_agent}`,
-  [
-    "completed-task",
-    data.active_sprint.current_task.assigned_agent.toLowerCase()
-  ]
-);
-         data.history.push({
-            ...data.active_sprint.current_task,
-            completed_at: new Date().toISOString()
-        });
+  if (!data.active_sprint) {
+    console.log("No active task to complete.");
+  } else {
+    memory.remember(
+      "lessons",
+      `Completed task: ${data.active_sprint.current_task.description} using agent ${data.active_sprint.current_task.assigned_agent}`,
+      [
+        "completed-task",
+        data.active_sprint.current_task.assigned_agent.toLowerCase()
+      ]
+    );
 
-        data.active_sprint = null;
-        fs.writeFileSync(MC_PATH, JSON.stringify(data, null, 2));
-        console.log("Task marked as complete and moved to history.");
-    }
-    process.exit(0);
+    stats.recordSuccess(
+      data.active_sprint.current_task.assigned_agent
+    );
+
+    data.history.push({
+      ...data.active_sprint.current_task,
+      completed_at: new Date().toISOString()
+    });
+
+    data.active_sprint = null;
+    fs.writeFileSync(MC_PATH, JSON.stringify(data, null, 2));
+    console.log("Task marked as complete, lesson saved, and stats updated.");
+  }
+
+  process.exit(0);
 }
 async function main() {
     // Existing task assignment logic

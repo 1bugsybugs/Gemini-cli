@@ -26,6 +26,12 @@
       "assigned_agent": "DEVELOPER",
       "priority": "normal",
       "completed_at": "2026-06-09T02:48:07.815Z"
+    },
+    {
+      "description": "test agent stats",
+      "assigned_agent": "DEVELOPER",
+      "priority": "normal",
+      "completed_at": "2026-06-09T03:38:38.551Z"
     }
   ]
 }
