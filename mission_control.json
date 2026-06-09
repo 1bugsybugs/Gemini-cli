@@ -3,7 +3,7 @@
     "project_id": "manual_trigger",
     "status": "in_progress",
     "current_task": {
-      "description": "build another calculator app",
+      "description": "build calculator app",
       "assigned_agent": "DEVELOPER",
       "priority": "normal"
     }
