@@ -9,7 +9,7 @@ const client = new OpenAI({
 
 const fs = require('fs');
 const path = require('path');
-
+const memory = require("./core/memory-engine");
 const MC_PATH = path.join(process.env.HOME, 'jarvis', 'mission_control.json');
 let [,, taskDescription, agent] = process.argv;
 
@@ -61,7 +61,22 @@ async function main() {
         messages: [
             {
                 role: "system",
-                content: "Choose the best agent for the task..."
+                content: `
+Choose the best agent for the task.
+
+Use Jarvis memory as context.
+
+Goals:
+${JSON.stringify(memory.recall("goals"), null, 2)}
+
+Lessons:
+${JSON.stringify(memory.recall("lessons"), null, 2)}
+
+Decisions:
+${JSON.stringify(memory.recall("decisions"), null, 2)}
+
+Return only the agent name.
+`
             },
             {
                 role: "user",

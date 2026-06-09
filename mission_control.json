@@ -1,5 +1,13 @@
 {
-  "active_sprint": null,
+  "active_sprint": {
+    "project_id": "manual_trigger",
+    "status": "in_progress",
+    "current_task": {
+      "description": "organize my github repo",
+      "assigned_agent": "ORGANIZER",
+      "priority": "normal"
+    }
+  },
   "squad_status": {
     "CLAUDE": "available",
     "GEMINI": "available",
