@@ -2,9 +2,15 @@ const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
-const MC_PATH = path.join(process.env.HOME, "jarvis", "mission_control.json");
+const MC_PATH = path.join(
+  process.env.HOME,
+  "jarvis",
+  "mission_control.json"
+);
 
-const data = JSON.parse(fs.readFileSync(MC_PATH, "utf8"));
+const data = JSON.parse(
+  fs.readFileSync(MC_PATH, "utf8")
+);
 
 if (!data.active_sprint) {
   console.log("No active mission to dispatch.");
@@ -13,16 +19,24 @@ if (!data.active_sprint) {
 
 const task = data.active_sprint.current_task;
 const worker = task.assigned_agent.toLowerCase();
-const workerPath = path.join("workers", `${worker}.js`);
+const workerPath = path.join("workers", worker + ".js");
 
 if (!fs.existsSync(workerPath)) {
-  console.log(`No worker found for agent: ${task.assigned_agent}`);
-  console.log(`Expected file: ${workerPath}`);
+  console.log("No worker found for agent: " + task.assigned_agent);
+  console.log("Expected file: " + workerPath);
   process.exit(1);
 }
 
-console.log(`Dispatching mission to ${task.assigned_agent} worker...`);
+console.log(
+  "Dispatching mission to " +
+  task.assigned_agent +
+  " worker..."
+);
 
-execSync(`node ${workerPath}`, {
+execSync("node " + workerPath, {
+  stdio: "inherit"
+});
+
+execSync("node jarvis.js done", {
   stdio: "inherit"
 });

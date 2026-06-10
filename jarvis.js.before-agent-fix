@@ -128,7 +128,7 @@ Return only the agent name.
     status: "in_progress",
     current_task: {
         description: taskDescription,
-        assigned_agent: 'DEVELOPER',
+        assigned_agent: agent.toUpperCase(),
         priority: "normal"
     }
 };
