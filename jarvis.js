@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const memory = require("./core/memory-engine");
 const stats = require("./core/stats");
+const { spawnSync } = require("child_process");
 const MC_PATH = path.join(process.env.HOME, 'jarvis', 'mission_control.json');
 let [,, taskDescription, agent] = process.argv;
 
@@ -136,6 +137,10 @@ Return only the agent name.
     fs.writeFileSync(MC_PATH, JSON.stringify(data, null, 2));
 
 console.log(`Task '${taskDescription}' assigned to ${agent.toUpperCase()}. Jarvis mission control updated.`);
+if (agent.toUpperCase() === "DEVELOPER") {
+  spawnSync("node", ["workers/developer.js"], { stdio: "inherit" });
+}
+
 }
 
 main().catch(console.error);
