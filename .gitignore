@@ -1,3 +1,8 @@
 .env
 node_modules/
 *.bak
+
+# Jarvis runtime data
+memory/
+stats/
+mission_control.json
