@@ -6,6 +6,7 @@ const { getStats } =
   require("./core/mission-stats");
 const { executeTask } =
   require("./core/executors");
+const { saveMissionReport } = require("./core/mission-report");
 
 const mission = process.argv.slice(2).join(" ") || "Build a weather app";
 const stats = getStats();
@@ -40,7 +41,7 @@ tasks.forEach(task => {
 
   console.log(`\nExecuting: ${task.task}`);
 
-  executeTask(task);
+  executeTask(task, mission);
 
   console.log("[✓] Complete");
 
@@ -62,6 +63,8 @@ tasks.forEach(task => {
 });
 
 console.log("\nMission Execution Complete");
+
+saveMissionReport(mission, tasks, skills);
 
 console.log(`
 ====================================
