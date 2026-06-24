@@ -25,6 +25,17 @@
       "status": "planned"
     },
     {
+      "name": "plan_project",
+      "description": "Creates a safe project plan before any files are written.",
+      "triggers": ["build", "make", "create app", "calculator app", "website", "project", "plan project"],
+      "inputs": ["request_text"],
+      "outputs": ["project_plan", "file_list", "next_steps"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "openai_or_groq",
+      "status": "planned"
+    },
+    {
       "name": "write_project_file",
       "description": "Writes or updates a project file after approval.",
       "triggers": ["write", "edit", "update", "save", "create file"],
