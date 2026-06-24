@@ -1,0 +1,61 @@
+{
+  "version": "0.1.0",
+  "project": "Rev-9",
+  "skills": [
+    {
+      "name": "summarize_notes",
+      "description": "Summarizes notes, logs, or project text into a short useful recap.",
+      "triggers": ["summarize", "recap", "explain", "notes", "logs"],
+      "inputs": ["text", "file_path"],
+      "outputs": ["summary", "action_items"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "openai_or_groq",
+      "status": "planned"
+    },
+    {
+      "name": "inspect_repo",
+      "description": "Reads project structure and explains what files are doing.",
+      "triggers": ["repo", "inspect", "project", "files", "codebase"],
+      "inputs": ["local_path", "repo_url"],
+      "outputs": ["file_map", "repo_summary", "suggested_next_steps"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "github_or_filesystem",
+      "status": "planned"
+    },
+    {
+      "name": "write_project_file",
+      "description": "Writes or updates a project file after approval.",
+      "triggers": ["write", "edit", "update", "save", "create file"],
+      "inputs": ["file_path", "content", "approval"],
+      "outputs": ["updated_file", "change_note"],
+      "risk": "high",
+      "approval_required": true,
+      "provider_or_mcp": "filesystem",
+      "status": "planned"
+    },
+    {
+      "name": "git_status_check",
+      "description": "Checks Git status and reports what changed.",
+      "triggers": ["git status", "changes", "working tree", "push check"],
+      "inputs": ["local_path"],
+      "outputs": ["changed_files", "clean_or_dirty", "next_git_step"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "git",
+      "status": "planned"
+    },
+    {
+      "name": "git_push_changes",
+      "description": "Commits and pushes approved changes to GitHub.",
+      "triggers": ["push", "commit", "sync to github"],
+      "inputs": ["commit_message", "approval"],
+      "outputs": ["commit_hash", "push_result"],
+      "risk": "high",
+      "approval_required": true,
+      "provider_or_mcp": "git",
+      "status": "planned"
+    }
+  ]
+}
