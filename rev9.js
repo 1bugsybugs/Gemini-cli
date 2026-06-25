@@ -1,6 +1,6 @@
 const { routeRequest } = require("./core/skill-router");
 const { logRun } = require("./core/run-logger");
-const { planProject } = require("./core/project-planner");
+const { executeSkill } = require("./core/skill-executor");
 
 const requestText = process.argv.slice(2).join(" ");
 
@@ -8,6 +8,7 @@ if (!requestText) {
   console.log("Usage:");
   console.log('  node rev9.js "build a calculator app"');
   console.log('  node rev9.js "push my changes to github"');
+  console.log('  node rev9.js "check git status"');
   process.exit(1);
 }
 
@@ -37,28 +38,46 @@ if (result.approval.approval_required) {
   console.log("\nDecision: SAFE TO RUN");
 }
 
-if (result.chosen_skill === "plan_project") {
-  const plan = planProject(requestText);
+const execution = executeSkill(result, requestText);
 
-  console.log("\nProject Plan");
-  console.log("------------");
-  console.log(`Project name: ${plan.project_name}`);
-  console.log(`Goal: ${plan.goal}`);
+if (execution) {
+  console.log("\nExecution");
+  console.log("---------");
 
-  console.log("\nSuggested files:");
-  for (const file of plan.suggested_files) {
-    console.log(`- ${file}`);
+  if (!execution.executed) {
+    console.log(execution.message);
   }
 
-  console.log("\nBuild steps:");
-  plan.build_steps.forEach((step, index) => {
-    console.log(`${index + 1}. ${step}`);
-  });
+  if (execution.executed && execution.type === "project_plan") {
+    const plan = execution.data;
 
-  console.log("\nRecommended skill chain:");
-  for (const skill of plan.recommended_skill_chain) {
-    console.log(`- ${skill}`);
+    console.log("Project Plan");
+    console.log("------------");
+    console.log(`Project name: ${plan.project_name}`);
+    console.log(`Goal: ${plan.goal}`);
+
+    console.log("\nSuggested files:");
+    for (const file of plan.suggested_files) {
+      console.log(`- ${file}`);
+    }
+
+    console.log("\nBuild steps:");
+    plan.build_steps.forEach((step, index) => {
+      console.log(`${index + 1}. ${step}`);
+    });
+
+    console.log("\nRecommended skill chain:");
+    for (const skill of plan.recommended_skill_chain) {
+      console.log(`- ${skill}`);
+    }
+
+    console.log(`\nSafety note: ${plan.safety_note}`);
   }
 
-  console.log(`\nSafety note: ${plan.safety_note}`);
+  if (execution.executed && execution.type === "git_status") {
+    console.log("Git Status");
+    console.log("----------");
+    console.log(execution.data.branch_status);
+    console.log(execution.data.short_status);
+  }
 }
