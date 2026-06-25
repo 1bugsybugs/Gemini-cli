@@ -49,7 +49,6 @@ if (execution) {
   }
 
   if (execution.executed && execution.type === "project_plan") {
-    const plan = execution.data;
 
     console.log("Project Plan");
     console.log("------------");
@@ -74,10 +73,31 @@ if (execution) {
     console.log(`\nSafety note: ${plan.safety_note}`);
   }
 
-  if (execution.executed && execution.type === "git_status") {
+      if (execution.executed && execution.type === "git_status") {
     console.log("Git Status");
     console.log("----------");
     console.log(execution.data.branch_status);
     console.log(execution.data.short_status);
   }
+
+  if (execution.executed && execution.type === "status_report") {
+    console.log("Rev-9 Status Report");
+    console.log("-------------------");
+
+    console.log("\nGit:");
+    console.log(execution.data.git.branch_status);
+    console.log(execution.data.git.short_status);
+
+    console.log("\nRecent runs:");
+    if (execution.data.recent_runs.length === 0) {
+      console.log("No runs logged yet.");
+    } else {
+      for (const run of execution.data.recent_runs) {
+        console.log(
+          `- ${run.timestamp} | ${run.chosen_skill} | risk=${run.risk} | allowed=${run.allowed} | ${run.request}`
+        );
+      }
+    }
+  }
 }
+

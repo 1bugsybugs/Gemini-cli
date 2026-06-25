@@ -1,5 +1,6 @@
 const { execSync } = require("child_process");
 const { planProject } = require("./project-planner");
+const { buildStatusReport } = require("./status-report");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -37,6 +38,14 @@ function executeSkill(result, requestText) {
         branch_status: branchStatus,
         short_status: shortStatus || "Working tree clean."
       }
+    };
+  }
+
+  if (result.chosen_skill === "rev9_status_report") {
+    return {
+      executed: true,
+      type: "status_report",
+      data: buildStatusReport()
     };
   }
 

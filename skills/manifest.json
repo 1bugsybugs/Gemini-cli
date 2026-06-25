@@ -58,6 +58,17 @@
       "status": "planned"
     },
     {
+      "name": "rev9_status_report",
+      "description": "Shows Git status and recent Rev-9 run history.",
+      "triggers": ["rev9 status", "system status", "mission status", "status report", "recent runs"],
+      "inputs": ["local_path"],
+      "outputs": ["git_status", "recent_runs", "system_summary"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "git_and_logs",
+      "status": "planned"
+    },
+    {
       "name": "git_push_changes",
       "description": "Commits and pushes approved changes to GitHub.",
       "triggers": ["push", "commit", "sync to github"],
