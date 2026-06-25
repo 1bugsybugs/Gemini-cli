@@ -6,3 +6,4 @@ node_modules/
 memory/
 stats/
 mission_control.json
+logs/
