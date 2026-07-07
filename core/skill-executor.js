@@ -1,6 +1,7 @@
 const { execSync } = require("child_process");
 const { planProject } = require("./project-planner");
 const { buildStatusReport } = require("./status-report");
+const { summarizeNotes } = require("./note-summarizer");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -49,7 +50,15 @@ function executeSkill(result, requestText) {
     };
   }
 
+if (result.chosen_skill === "summarize_notes") {
   return {
+    executed: true,
+    type: "summary",
+    data: summarizeNotes(requestText)
+  };
+} 
+
+ return {
     executed: false,
     message: `No executor exists yet for ${result.chosen_skill}.`
   };
