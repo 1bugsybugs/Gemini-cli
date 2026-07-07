@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { getExecutorSkills } = require("../../core/executor-registry");
 
 module.exports = function(packet) {
   const manifestPath = path.join(__dirname, "..", "manifest.json");
@@ -26,18 +27,11 @@ module.exports = function(packet) {
   const highRisk = skills.filter(
     skill => skill.risk === "high"
   );
-  const implementedExecutors = [
-    "plan_project",
-    "git_status_check",
-    "rev9_status_report",
-    "summarize_notes",
-    "memory-search",
-    "system-info"
-  ];
+  const implementedExecutors = getExecutorSkills();
 
-  const missingExecutors = skills
-    .map(skill => skill.name)
-    .filter(name => !implementedExecutors.includes(name));
+const missingExecutors = skills
+  .map(skill => skill.name)
+  .filter(name => !implementedExecutors.includes(name));
 
   if (packet.input.includes("validate")) {
     return {
