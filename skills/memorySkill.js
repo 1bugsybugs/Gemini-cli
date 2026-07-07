@@ -1,53 +1,47 @@
 const memory = require("../memory");
 
-function save(packet) {
-  const userId = packet.context?.userId || "default";
+module.exports = {
+  name: "memory",
 
-  const updated = memory.write(userId, {
-    type: "memory",
-    text: packet.input
-  });
+  match(packet) {
+    const text = (packet?.input || "").toString().toLowerCase();
+    return text.includes("remember") || text.includes("what do you remember");
+  },
 
-  return {
-    status: "saved",
-    type: "memory",
-    data: updated
-  };
-}
+  async run(packet) {
+    const userId = packet?.context?.userId || "default";
+    const input = packet?.input || "";
 
-function get(packet) {
-  const userId = packet.context?.userId || "default";
-  const query = (packet.input || "").toLowerCase();
+    const data = memory.read(userId);
+    const timeline = data.timeline || [];
 
-  const data = memory.read(userId);
+    const text = (input || "").toString().toLowerCase();
 
-  const timeline = data.timeline || [];
+if (text.includes("remember")) {
+      const updated = memory.write(userId, {
+        type: "memory",
+        text: input
+      });
 
-  // If no search term, return full memory
-  if (!query || query.includes("what do you remember")) {
+      return {
+        status: "saved",
+        type: "memory",
+        data: updated
+      };
+    }
+
+    const query = (input || "").toString().toLowerCase();
+
+    const filtered = timeline.filter(item =>
+      (item.text || "").toLowerCase().includes(query)
+    );
+
     return {
       status: "ok",
       type: "memory",
-      data
+      data: {
+        timeline: filtered
+      }
     };
   }
-
-  // Filter timeline by keyword match
-  const filtered = timeline.filter(item =>
-    (item.text || "").toLowerCase().includes(query)
-  );
-
-  return {
-    status: "ok",
-    type: "memory",
-    query,
-    data: {
-      timeline: filtered
-    }
-  };
-}
-
-module.exports = {
-  save,
-  get
 };

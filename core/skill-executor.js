@@ -2,6 +2,7 @@ const { execSync } = require("child_process");
 const { planProject } = require("./project-planner");
 const { buildStatusReport } = require("./status-report");
 const { summarizeNotes } = require("./note-summarizer");
+const { searchMemory } = require("./memory-worker");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -57,8 +58,22 @@ if (result.chosen_skill === "summarize_notes") {
     data: summarizeNotes(requestText)
   };
 } 
+if (result.chosen_skill === "memory-search") {
+  return {
+    executed: true,
+    type: "memory",
+    data: searchMemory(requestText)
+  };
+}
+  if (result.chosen_skill === "system-info") {
+    const systemInfo = require("../skills/system/systemInfo");
 
- return {
+    return systemInfo({
+      input: requestText
+    });
+  }
+
+return {
     executed: false,
     message: `No executor exists yet for ${result.chosen_skill}.`
   };

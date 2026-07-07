@@ -3,6 +3,40 @@
   "project": "Rev-9",
   "skills": [
     {
+  "name": "system-info",
+  "description": "Shows Rev-9 capabilities and validates configuration.",
+  "triggers": [
+    "list skills",
+    "show skills",
+    "validate skills",
+    "system status",
+    "health check"
+  ],
+  "inputs": ["query"],
+  "outputs": ["status", "skills"],
+  "risk": "low",
+  "approval_required": false,
+  "provider_or_mcp": "local",
+  "status": "active"
+  },
+  {
+  "name": "memory-search",
+  "description": "Searches Rev-9 memory for goals, decisions, lessons, and project history.",
+  "triggers": [
+    "remember",
+    "what do you remember",
+    "memory",
+    "recall",
+    "history"
+  ],
+  "inputs": ["query"],
+  "outputs": ["memories"],
+  "risk": "low",
+  "approval_required": false,
+  "provider_or_mcp": "memory-engine",
+  "status": "active"
+  },
+  {
       "name": "summarize_notes",
       "description": "Summarizes notes, logs, or project text into a short useful recap.",
       "triggers": ["summarize", "recap", "explain", "notes", "logs"],
