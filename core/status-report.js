@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
+const manifest = require("../skills/manifest.json");
+const { getExecutorSkills } = require("./executor-registry");
 
 const logFile = path.join(__dirname, "..", "logs", "runs.jsonl");
 
@@ -41,8 +43,30 @@ function getGitStatus() {
   };
 }
 
+function getSkillStatus() {
+  const skills = manifest.skills;
+  const executors = getExecutorSkills();
+
+  const missingExecutors = skills
+    .map(skill => skill.name)
+    .filter(name => !executors.includes(name));
+
+  return {
+    total: skills.length,
+    active: skills.filter(skill => skill.status === "active").length,
+    planned: skills.filter(skill => skill.status === "planned").length,
+    high_risk: skills.filter(skill => skill.risk === "high").length,
+    connected_executors: executors.length,
+    missing_executors: missingExecutors
+  };
+}
+
 function buildStatusReport() {
   return {
+    health: "operational",
+    project: manifest.project,
+    version: manifest.version,
+    skills: getSkillStatus(),
     git: getGitStatus(),
     recent_runs: readRecentRuns(5)
   };
