@@ -1,0 +1,15 @@
+{
+  "current_goal": "Build Rev-9 agent framework",
+  "completed": [
+    "Skill routing",
+    "Memory search",
+    "Self diagnostics",
+    "Executor discovery",
+    "Status cockpit"
+  ],
+  "next": [
+    "Build inspect_repo",
+    "Build safe file writer",
+    "Add controlled git actions"
+  ]
+}

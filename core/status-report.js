@@ -3,6 +3,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 const manifest = require("../skills/manifest.json");
 const { getExecutorSkills } = require("./executor-registry");
+const { getMission } = require("./mission-manager");
 
 const logFile = path.join(__dirname, "..", "logs", "runs.jsonl");
 
@@ -66,6 +67,7 @@ function buildStatusReport() {
     health: "operational",
     project: manifest.project,
     version: manifest.version,
+    mission: getMission(),
     skills: getSkillStatus(),
     git: getGitStatus(),
     recent_runs: readRecentRuns(5)
