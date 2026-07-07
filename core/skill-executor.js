@@ -3,6 +3,7 @@ const { planProject } = require("./project-planner");
 const { buildStatusReport } = require("./status-report");
 const { summarizeNotes } = require("./note-summarizer");
 const { searchMemory } = require("./memory-worker");
+const { inspectRepo } = require("./repo-inspector");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -72,7 +73,13 @@ if (result.chosen_skill === "memory-search") {
       input: requestText
     });
   }
-
+if (result.chosen_skill === "inspect_repo") {
+  return {
+    executed: true,
+    type: "repo_inspection",
+    data: inspectRepo()
+  };
+}
 return {
     executed: false,
     message: `No executor exists yet for ${result.chosen_skill}.`
