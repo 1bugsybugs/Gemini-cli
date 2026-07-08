@@ -3,22 +3,40 @@
   "project": "Rev-9",
   "skills": [
     {
-  "name": "system-info",
-  "description": "Shows Rev-9 capabilities and validates configuration.",
-  "triggers": [
-    "list skills",
-    "show skills",
-    "validate skills",
-    "system status",
-    "health check"
-  ],
-  "inputs": ["query"],
-  "outputs": ["status", "skills"],
-  "risk": "low",
-  "approval_required": false,
-  "provider_or_mcp": "local",
-  "status": "active"
-  },
+      "name": "system-info",
+      "description": "Shows Rev-9 capabilities and validates configuration.",
+      "triggers": [
+        "list skills",
+        "show skills",
+        "validate skills",
+        "system status",
+        "health check"
+      ],
+      "inputs": ["query"],
+      "outputs": ["status", "skills"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "local",
+      "status": "active"
+    },
+    {
+      "name": "device-status",
+      "description": "Reads Android device information through Termux:API.",
+      "triggers": [
+        "battery",
+        "battery status",
+        "phone status",
+        "device status",
+        "check device",
+        "how much battery"
+      ],
+      "inputs": ["query"],
+      "outputs": ["battery", "charging", "health", "temperature"],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "termux-api",
+      "status": "active"
+    },
   {
   "name": "memory-search",
   "description": "Searches Rev-9 memory for goals, decisions, lessons, and project history.",

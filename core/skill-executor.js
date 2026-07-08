@@ -67,12 +67,21 @@ if (result.chosen_skill === "memory-search") {
   };
 }
   if (result.chosen_skill === "system-info") {
-    const systemInfo = require("../skills/system/systemInfo");
+  const systemInfo = require("../skills/system/systemInfo");
 
-    return systemInfo({
-      input: requestText
-    });
-  }
+  return systemInfo({
+    input: requestText
+  });
+}
+
+if (result.chosen_skill === "device-status") {
+  const deviceStatus = require("../skills/system/deviceStatus");
+
+  return deviceStatus({
+    input: requestText
+  });
+}
+
 if (result.chosen_skill === "inspect_repo") {
   return {
     executed: true,

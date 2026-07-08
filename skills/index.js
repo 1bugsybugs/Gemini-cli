@@ -2,6 +2,7 @@ module.exports = {
   search: require("./search"),
   memory: require("./memorySkill"),
   "system-info": require("./system/systemInfo"),
+  "device-status": require("./system/deviceStatus"),
   ai: {
     default: (packet) => ({
       status: "ok",
