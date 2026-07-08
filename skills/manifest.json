@@ -23,12 +23,13 @@
       "name": "device-status",
       "description": "Reads Android device information through Termux:API.",
       "triggers": [
-        "battery",
-        "battery status",
-        "phone status",
-        "device status",
-        "check device",
-        "how much battery"
+       "battery",
+       "battery status",
+       "phone status",
+       "device status",
+       "check device",
+       "check my device",
+       "how much battery"
       ],
       "inputs": ["query"],
       "outputs": ["battery", "charging", "health", "temperature"],
