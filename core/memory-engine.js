@@ -8,6 +8,7 @@ const files = {
   decisions: "decisions.json",
   lessons: "lessons.json",
   projects: "projects.json",
+  missing_skills: "missing-skills.json",
 };
 
 function ensureFile(type) {
@@ -58,8 +59,27 @@ function recall(type, keyword = "") {
   );
 }
 
+function logMissingSkill(request, suggestedSkill, reason = "no match") {
+  const data = readMemory("missing_skills");
+
+  const entry = {
+    id: Date.now().toString(),
+    request,
+    suggestedSkill,
+    reason,
+    createdAt: new Date().toISOString(),
+  };
+
+  data.push(entry);
+
+  saveMemory("missing_skills", data);
+
+  return entry;
+}
+
 module.exports = {
   remember,
   recall,
   readMemory,
+  logMissingSkill,
 };
