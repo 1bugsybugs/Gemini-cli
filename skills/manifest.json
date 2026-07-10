@@ -12,8 +12,13 @@
         "system status",
         "health check"
       ],
-      "inputs": ["query"],
-      "outputs": ["status", "skills"],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "status",
+        "skills"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "local",
@@ -23,44 +28,67 @@
       "name": "device-status",
       "description": "Reads Android device information through Termux:API.",
       "triggers": [
-       "battery",
-       "battery status",
-       "phone status",
-       "device status",
-       "check device",
-       "check my device",
-       "how much battery"
+        "battery",
+        "battery status",
+        "phone status",
+        "device status",
+        "check device",
+        "check my device",
+        "how much battery"
       ],
-      "inputs": ["query"],
-      "outputs": ["battery", "charging", "health", "temperature"],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "battery",
+        "charging",
+        "health",
+        "temperature"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "termux-api",
       "status": "active"
     },
-  {
-  "name": "memory-search",
-  "description": "Searches Rev-9 memory for goals, decisions, lessons, and project history.",
-  "triggers": [
-    "remember",
-    "what do you remember",
-    "memory",
-    "recall",
-    "history"
-  ],
-  "inputs": ["query"],
-  "outputs": ["memories"],
-  "risk": "low",
-  "approval_required": false,
-  "provider_or_mcp": "memory-engine",
-  "status": "active"
-  },
-  {
+    {
+      "name": "memory-search",
+      "description": "Searches Rev-9 memory for goals, decisions, lessons, and project history.",
+      "triggers": [
+        "remember",
+        "what do you remember",
+        "memory",
+        "recall",
+        "history"
+      ],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "memories"
+      ],
+      "risk": "low",
+      "approval_required": false,
+      "provider_or_mcp": "memory-engine",
+      "status": "active"
+    },
+    {
       "name": "summarize_notes",
       "description": "Summarizes notes, logs, or project text into a short useful recap.",
-      "triggers": ["summarize", "recap", "explain", "notes", "logs"],
-      "inputs": ["text", "file_path"],
-      "outputs": ["summary", "action_items"],
+      "triggers": [
+        "summarize",
+        "recap",
+        "explain",
+        "notes",
+        "logs"
+      ],
+      "inputs": [
+        "text",
+        "file_path"
+      ],
+      "outputs": [
+        "summary",
+        "action_items"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "openai_or_groq",
@@ -69,9 +97,22 @@
     {
       "name": "inspect_repo",
       "description": "Reads project structure and explains what files are doing.",
-      "triggers": ["repo", "inspect", "project", "files", "codebase"],
-      "inputs": ["local_path", "repo_url"],
-      "outputs": ["file_map", "repo_summary", "suggested_next_steps"],
+      "triggers": [
+        "repo",
+        "inspect",
+        "project",
+        "files",
+        "codebase"
+      ],
+      "inputs": [
+        "local_path",
+        "repo_url"
+      ],
+      "outputs": [
+        "file_map",
+        "repo_summary",
+        "suggested_next_steps"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "github_or_filesystem",
@@ -80,9 +121,23 @@
     {
       "name": "plan_project",
       "description": "Creates a safe project plan before any files are written.",
-      "triggers": ["build", "make", "create app", "calculator app", "website", "project", "plan project"],
-      "inputs": ["request_text"],
-      "outputs": ["project_plan", "file_list", "next_steps"],
+      "triggers": [
+        "build",
+        "make",
+        "create app",
+        "calculator app",
+        "website",
+        "project",
+        "plan project"
+      ],
+      "inputs": [
+        "request_text"
+      ],
+      "outputs": [
+        "project_plan",
+        "file_list",
+        "next_steps"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "openai_or_groq",
@@ -91,9 +146,22 @@
     {
       "name": "write_project_file",
       "description": "Writes or updates a project file after approval.",
-      "triggers": ["write", "edit", "update", "save", "create file"],
-      "inputs": ["file_path", "content", "approval"],
-      "outputs": ["updated_file", "change_note"],
+      "triggers": [
+        "write",
+        "edit",
+        "update",
+        "save",
+        "create file"
+      ],
+      "inputs": [
+        "file_path",
+        "content",
+        "approval"
+      ],
+      "outputs": [
+        "updated_file",
+        "change_note"
+      ],
       "risk": "high",
       "approval_required": true,
       "provider_or_mcp": "filesystem",
@@ -102,9 +170,20 @@
     {
       "name": "git_status_check",
       "description": "Checks Git status and reports what changed.",
-      "triggers": ["git status", "changes", "working tree", "push check"],
-      "inputs": ["local_path"],
-      "outputs": ["changed_files", "clean_or_dirty", "next_git_step"],
+      "triggers": [
+        "git status",
+        "changes",
+        "working tree",
+        "push check"
+      ],
+      "inputs": [
+        "local_path"
+      ],
+      "outputs": [
+        "changed_files",
+        "clean_or_dirty",
+        "next_git_step"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "git",
@@ -113,9 +192,21 @@
     {
       "name": "rev9_status_report",
       "description": "Shows Git status and recent Rev-9 run history.",
-      "triggers": ["rev9 status", "system status", "mission status", "status report", "recent runs"],
-      "inputs": ["local_path"],
-      "outputs": ["git_status", "recent_runs", "system_summary"],
+      "triggers": [
+        "rev9 status",
+        "system status",
+        "mission status",
+        "status report",
+        "recent runs"
+      ],
+      "inputs": [
+        "local_path"
+      ],
+      "outputs": [
+        "git_status",
+        "recent_runs",
+        "system_summary"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "git_and_logs",
@@ -129,8 +220,14 @@
         "commit",
         "sync to github"
       ],
-      "inputs": ["commit_message", "approval"],
-      "outputs": ["commit_hash", "push_result"],
+      "inputs": [
+        "commit_message",
+        "approval"
+      ],
+      "outputs": [
+        "commit_hash",
+        "push_result"
+      ],
       "risk": "high",
       "approval_required": true,
       "provider_or_mcp": "git",
@@ -145,11 +242,51 @@
         "what skills are missing",
         "what do you need to learn"
       ],
-      "inputs": ["query"],
-      "outputs": ["missing_skills"],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "missing_skills"
+      ],
       "risk": "low",
       "approval_required": false,
       "provider_or_mcp": "memory",
+      "status": "active"
+    },
+    {
+      "name": "skill_generator",
+      "description": "Creates new Rev-9 skill skeletons from approved blueprints.",
+      "triggers": [
+        "create skill",
+        "generate skill",
+        "build new skill"
+      ],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "generated_skill"
+      ],
+      "risk": "high",
+      "approval_required": true,
+      "provider_or_mcp": "filesystem",
+      "status": "active"
+    },
+    {
+      "name": "create_skill_hello_world",
+      "description": "Generated skill for: create skill hello_world",
+      "triggers": [
+        "create skill hello_world"
+      ],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "response"
+      ],
+      "risk": "medium",
+      "approval_required": true,
+      "provider_or_mcp": "local",
       "status": "active"
     }
   ]

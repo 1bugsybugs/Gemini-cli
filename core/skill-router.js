@@ -1,7 +1,7 @@
 const manifest = require("../skills/manifest.json");
 const { requiresApproval } = require("./approval-gate");
-const { recordMissingSkill } = require("./skill-gap-detector");
 const { recordSkillGap } = require("./skill-gap-detector");
+
 
 function scoreSkill(requestText, skill) {
   const text = requestText.toLowerCase();
@@ -51,7 +51,7 @@ function routeRequest(requestText) {
     .sort((a, b) => b.score - a.score);
 
   if (ranked.length === 0) {
-    const missingSkill = recordMissingSkill(requestText);
+    const missingSkill = recordSkillGap(requestText);
 
     return {
       matched: false,

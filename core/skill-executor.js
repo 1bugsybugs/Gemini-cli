@@ -5,20 +5,36 @@ const { summarizeNotes } = require("./note-summarizer");
 const { searchMemory } = require("./memory-worker");
 const { inspectRepo } = require("./repo-inspector");
 const { getMissingSkillReport } = require("./missing-skill-report");
+const { createSkill } = require("./skill-generator");
+const { isApproved, approveSkill } = require("./approval-memory");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
-    return null;
-  }
+  return null;
+} 
 
-  if (result.approval && result.approval.approval_required) {
-    return {
-      executed: false,
-      message: "Execution blocked. Bugsy approval is required first."
-    };
-  }
+ if (requestText.startsWith("approve ")) {
+  const skillName = requestText.replace("approve ", "").trim();
 
-  if (result.chosen_skill === "plan_project") {
+  approveSkill(skillName);
+
+  return {
+    executed: true,
+    message: `Approval recorded for ${skillName}`
+  };
+}
+
+if (
+  result.risk === "high" &&
+  !isApproved(result.chosen_skill)
+) {
+  return {
+    executed: false,
+    message: "Execution blocked. Bugsy approval is required first."
+  };
+}
+  
+   if (result.chosen_skill === "plan_project") {
     return {
       executed: true,
       type: "project_plan",
@@ -90,11 +106,15 @@ if (result.chosen_skill === "inspect_repo") {
     data: inspectRepo()
   };
 }
-if (result.chosen_skill === "missing_skill_report") {
+if (result.chosen_skill === "skill_generator") {
   return {
     executed: true,
-    type: "missing_skill_report",
-    data: getMissingSkillReport()
+    type: "skill_generation",
+    data: createSkill(
+      requestText,
+      `Generated skill for: ${requestText}`,
+      [requestText]
+    )
   };
 }
 return {
