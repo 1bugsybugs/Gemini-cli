@@ -2,7 +2,13 @@ const { routeRequest } = require("./core/skill-router");
 const { executeSkill } = require("./core/skill-executor");
 
 (async () => {
-  const input = process.argv.slice(2).join(" ");
+  const args = process.argv.slice(2);
+
+const dryRun = args.includes("--dry-run");
+
+const input = args
+  .filter(arg => arg !== "--dry-run")
+  .join(" ");
 
   if (!input) {
     console.log("Usage: node run.js \"your request\"");
@@ -26,6 +32,27 @@ const { executeSkill } = require("./core/skill-executor");
   console.log("Risk:", routed.risk);
 
   const result = executeSkill(routed, input);
+
+  if (dryRun) {
+    console.log(`
+    REV-9 DRY RUN
+   ----------------
+    Request:
+    ${input}
+
+    Chosen skill:
+    ${result.skill || result.chosen_skill}
+
+    Risk:
+    ${result.risk || "unknown"}
+
+Approval required:
+${result.requiresApproval ? "YES" : "NO"}
+
+No changes were made.
+`);
+  process.exit(0);
+}
 
   console.log("\nRESULT");
   console.log("----------------");
