@@ -54,7 +54,9 @@ function routeRequest(requestText) {
 
     return {
       matched: false,
-      message: "No matching skill found. Skill request saved.",
+      message: missingSkill.alreadyExists
+        ? "No matching skill found. This missing skill is already recorded."
+        : "No matching skill found. Skill request saved.",
       request: requestText,
       missing_skill: missingSkill
     };
