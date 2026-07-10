@@ -15,9 +15,6 @@ const input = args
     process.exit(1);
   }
 
-  console.log("\nREV-9 ONLINE");
-  console.log("----------------");
-
   const routed = routeRequest(input);
 
   console.log("Request:", routed.request);
@@ -31,28 +28,29 @@ const input = args
   console.log("Chosen skill:", routed.chosen_skill);
   console.log("Risk:", routed.risk);
 
-  const result = executeSkill(routed, input);
-
   if (dryRun) {
-    console.log(`
-    REV-9 DRY RUN
-   ----------------
-    Request:
-    ${input}
+   console.log(`
+   REV-9 DRY RUN
+  ----------------
+   Request:
+   ${input}
 
-    Chosen skill:
-    ${result.skill || result.chosen_skill}
+   Chosen skill:
+   ${routed.chosen_skill}
 
-    Risk:
-    ${result.risk || "unknown"}
+   Risk:
+   ${routed.risk}
 
 Approval required:
-${result.requiresApproval ? "YES" : "NO"}
+${routed.approval.approval_required ? "YES" : "NO"}
 
 No changes were made.
 `);
+
   process.exit(0);
 }
+
+const result = executeSkill(routed, input);
 
   console.log("\nRESULT");
   console.log("----------------");
