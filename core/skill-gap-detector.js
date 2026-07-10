@@ -1,60 +1,50 @@
 const fs = require("fs");
 const path = require("path");
 
-const missingSkillsPath = path.join(
-  __dirname,
-  "../memory/missing-skills.json"
-);
+const missingPath = path.join(__dirname, "..", "memory", "missing-skills.json");
+const ideasPath = path.join(__dirname, "..", "memory", "skill-ideas.json");
 
-function ensureFile() {
-  if (!fs.existsSync(missingSkillsPath)) {
-    fs.writeFileSync(
-      missingSkillsPath,
-      "[]",
-      "utf8"
-    );
+function ensureFile(file, fallback) {
+  if (!fs.existsSync(file)) {
+    fs.writeFileSync(file, JSON.stringify(fallback, null, 2));
   }
 }
 
-function recordMissingSkill(requestText) {
-  ensureFile();
+function recordSkillGap(request, suggestedSkill) {
+  ensureFile(missingPath, []);
+  ensureFile(ideasPath, []);
 
-  const data = JSON.parse(
-    fs.readFileSync(missingSkillsPath, "utf8")
-  );
+  const missing = JSON.parse(fs.readFileSync(missingPath, "utf8"));
+  const ideas = JSON.parse(fs.readFileSync(ideasPath, "utf8"));
 
-const existing = data.find(
-  item => item.request.toLowerCase() === requestText.toLowerCase()
-);
-
-if (existing) {
-  return {
-    ...existing,
-    alreadyExists: true
-  };
-}
   const entry = {
-    id: Date.now().toString(),
-    request: requestText,
-    suggestedSkill: requestText
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "_")
-      .replace(/^_|_$/g, ""),
-    reason: "no matching skill",
-    createdAt: new Date().toISOString()
+    skill: suggestedSkill,
+    request,
+    detectedAt: new Date().toISOString(),
+    status: "waiting"
   };
 
-  data.push(entry);
+  missing.push(entry);
 
-  fs.writeFileSync(
-    missingSkillsPath,
-    JSON.stringify(data, null, 2),
-    "utf8"
-  );
+  const existing = ideas.find(i => i.skill === suggestedSkill);
+
+  if (existing) {
+    existing.requests++;
+  } else {
+    ideas.push({
+      skill: suggestedSkill,
+      requests: 1,
+      priority: "medium",
+      status: "waiting"
+    });
+  }
+
+  fs.writeFileSync(missingPath, JSON.stringify(missing, null, 2));
+  fs.writeFileSync(ideasPath, JSON.stringify(ideas, null, 2));
 
   return entry;
 }
 
 module.exports = {
-  recordMissingSkill
+  recordSkillGap
 };

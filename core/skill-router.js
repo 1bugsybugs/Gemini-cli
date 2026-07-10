@@ -1,6 +1,7 @@
 const manifest = require("../skills/manifest.json");
 const { requiresApproval } = require("./approval-gate");
 const { recordMissingSkill } = require("./skill-gap-detector");
+const { recordSkillGap } = require("./skill-gap-detector");
 
 function scoreSkill(requestText, skill) {
   const text = requestText.toLowerCase();

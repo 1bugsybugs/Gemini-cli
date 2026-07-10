@@ -50,13 +50,15 @@ function analyzeMissingSkills() {
     const skill = item.suggestedSkill;
 
     if (!existing.has(skill)) {
-      newSuggestions.push({
-        skill,
-        reason: `Requested but no matching skill exists: ${item.request}`,
-        priority: "medium",
-        createdAt: new Date().toISOString()
-      });
-    }
+  newSuggestions.push({
+    skill,
+    reason: `Requested but no matching skill exists: ${item.request}`,
+    priority: "medium",
+    createdAt: new Date().toISOString()
+  });
+
+  existing.add(skill);
+}
   }
 
   if (newSuggestions.length > 0) {
