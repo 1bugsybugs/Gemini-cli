@@ -288,6 +288,23 @@
       "approval_required": true,
       "provider_or_mcp": "local",
       "status": "active"
+    },
+    {
+      "name": "create_skill_test_validator",
+      "description": "Generated skill for: create skill test_validator",
+      "triggers": [
+        "create skill test_validator"
+      ],
+      "inputs": [
+        "query"
+      ],
+      "outputs": [
+        "response"
+      ],
+      "risk": "medium",
+      "approval_required": true,
+      "provider_or_mcp": "local",
+      "status": "active"
     }
   ]
 }

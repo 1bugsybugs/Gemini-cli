@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
+const { validateSkill } = require("./skill-validator");
 const skillsPath = path.join(__dirname, "../skills");
 const manifestPath = path.join(__dirname, "../skills/manifest.json");
 
@@ -35,8 +36,17 @@ function createSkill(skillName, description, triggers = []) {
 };
 `
   );
+const validation = validateSkill(folderName);
 
-  const manifest = JSON.parse(
+if (!validation.valid) {
+  return {
+    created: false,
+    message: "Skill failed validation.",
+    validation
+  };
+}
+ 
+ const manifest = JSON.parse(
     fs.readFileSync(manifestPath, "utf8")
   );
 
