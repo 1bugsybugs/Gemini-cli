@@ -117,6 +117,27 @@ if (result.chosen_skill === "skill_generator") {
     )
   };
 }
+// Dynamic skill loader fallback
+try {
+  const skillPath = `../skills/${result.chosen_skill}/index.js`;
+  const skill = require(skillPath);
+
+  if (typeof skill.run === "function") {
+    return {
+      executed: true,
+      type: "dynamic_skill",
+      data: skill.run({
+        input: requestText
+      })
+    };
+  }
+} catch (err) {
+}
+
+return {
+  executed: false,
+  message: `No executor exists yet for ${result.chosen_skill}.`
+};
 return {
     executed: false,
     message: `No executor exists yet for ${result.chosen_skill}.`
