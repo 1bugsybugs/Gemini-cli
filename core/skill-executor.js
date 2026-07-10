@@ -4,6 +4,7 @@ const { buildStatusReport } = require("./status-report");
 const { summarizeNotes } = require("./note-summarizer");
 const { searchMemory } = require("./memory-worker");
 const { inspectRepo } = require("./repo-inspector");
+const { getMissingSkillReport } = require("./missing-skill-report");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -87,6 +88,13 @@ if (result.chosen_skill === "inspect_repo") {
     executed: true,
     type: "repo_inspection",
     data: inspectRepo()
+  };
+}
+if (result.chosen_skill === "missing_skill_report") {
+  return {
+    executed: true,
+    type: "missing_skill_report",
+    data: getMissingSkillReport()
   };
 }
 return {
