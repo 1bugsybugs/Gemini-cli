@@ -1,15 +1,21 @@
 {
-  "current_goal": "Build Rev-9 agent framework",
+  "current_goal": "Expand Rev-9 agent capabilities",
   "completed": [
     "Skill routing",
     "Memory search",
     "Self diagnostics",
     "Executor discovery",
-    "Status cockpit"
+    "Status cockpit",
+    "Skill generation",
+    "Skill validation",
+    "Dynamic skill loading",
+    "Safe file writing",
+    "Controlled git actions"
   ],
   "next": [
-    "Build inspect_repo",
-    "Build safe file writer",
-    "Add controlled git actions"
+    "Improve skill testing",
+    "Strengthen permission controls",
+    "Build Rev-9 frontend dashboard",
+    "Expand memory system"
   ]
 }
