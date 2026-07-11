@@ -14,6 +14,18 @@ function executeSkill(result, requestText) {
   if (!result.matched) {
   return null;
 } 
+if (requestText.startsWith("complete step")) {
+  const parts = requestText.replace("complete step", "").trim().split(" ");
+
+  const taskId = parts.shift();
+  const stepName = parts.join(" ");
+
+  return {
+    executed: true,
+    type: "step_completed",
+    data: taskManager.completeStep(taskId, stepName)
+  };
+}
 
  if (requestText.startsWith("approve ")) {
   const skillName = requestText.replace("approve ", "").trim();
@@ -157,7 +169,18 @@ return {
 }
   if (requestText.startsWith("add task")) {
     const title = requestText.replace("add task", "").trim();
+if (requestText.startsWith("complete step")) {
+  const parts = requestText.replace("complete step", "").trim().split(" ");
 
+  const taskId = parts.shift();
+  const stepName = parts.join(" ");
+
+  return {
+    executed: true,
+    type: "step_completed",
+    data: taskManager.completeStep(taskId, stepName)
+  };
+}
     return {
       executed: true,
       type: "task_created",

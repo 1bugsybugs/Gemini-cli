@@ -136,8 +136,10 @@ function completeStep(taskId, stepName) {
     return null;
   }
 
+  task.steps = normalizeSteps(task.steps);
+
   const step = task.steps.find(
-    s => s.name === stepName
+    s => s.name.toLowerCase() === stepName.toLowerCase()
   );
 
   if (!step) {
@@ -145,7 +147,19 @@ function completeStep(taskId, stepName) {
   }
 
   step.status = "completed";
-  }
+
+  const completed = task.steps.filter(
+    s => s.status === "completed"
+  ).length;
+
+  task.progress = Math.round(
+    (completed / task.steps.length) * 100
+  );
+
+  saveTasks(tasks);
+
+  return task;
+}
 function normalizeSteps(steps) {
   if (!Array.isArray(steps)) {
     return [];
@@ -196,7 +210,7 @@ function getTaskProgress() {
       progress: Math.round(
         (completed / stepObjects.length) * 100
       ),
-      steps: task.steps
+      steps: normalizeSteps(task.steps)
     };
   });
 }
