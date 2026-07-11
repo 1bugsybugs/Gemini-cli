@@ -95,8 +95,7 @@
         "summarize",
         "recap",
         "explain",
-        "notes",
-        "logs"
+         "logs"
       ],
       "inputs": [
         "text",
@@ -161,16 +160,18 @@
       "status": "planned"
     },
     {
-      "name": "write_project_file",
-      "description": "Writes or updates a project file after approval.",
-      "triggers": [
-        "write",
-        "edit",
-        "update",
-        "save",
-        "create file"
-      ],
-      "inputs": [
+  "name": "write_project_file",
+  "description": "Creates project files when approved",
+  "status": "active",
+  "risk": "high",
+  "requiresApproval": true,
+  "triggers":[ 
+      "create file",
+      "write file",
+      "make file",
+      "create project file"
+    ],
+    "inputs": [
         "file_path",
         "content",
         "approval"

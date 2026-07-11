@@ -6,6 +6,7 @@ const { searchMemory } = require("./memory-worker");
 const { inspectRepo } = require("./repo-inspector");
 const { getMissingSkillReport } = require("./missing-skill-report");
 const { createSkill } = require("./skill-generator");
+const { createProjectFile } = require("./project-file-writer");
 const { isApproved, approveSkill } = require("./approval-memory");
 const taskManager = require("./task-manager");
 const tasks = taskManager.getTaskProgress();
@@ -119,6 +120,9 @@ if (result.chosen_skill === "inspect_repo") {
     type: "repo_inspection",
     data: inspectRepo()
   };
+}
+if (result.chosen_skill === "write_project_file") {
+  return createProjectFile(requestText);
 }
 if (result.chosen_skill === "skill_generator") {
   return {
