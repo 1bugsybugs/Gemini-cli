@@ -135,7 +135,19 @@ try {
 } catch (err) {
 }
 if (result.chosen_skill === "task_manager") {
+if (requestText.includes("show task progress") || requestText.includes("task progress") || requestText.includes("progress")) {
+  const tasks = taskManager.getTasks();
 
+  return {
+    executed: true,
+    type: "task_progress",
+    data: tasks.map(task => ({
+      title: task.title,
+      status: task.status,
+      steps: task.steps
+    }))
+  };
+}
   if (requestText.startsWith("add task")) {
     const title = requestText.replace("add task", "").trim();
 

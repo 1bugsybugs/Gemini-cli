@@ -10,8 +10,12 @@
         "show tasks",
         "next task",
         "complete task",
-        "tasks"
-      ],
+        "tasks",
+        "show task progress",
+        "task progress",
+        "progress",
+        "complete step"
+     ],
       "risk": "low",
       "status": "active"
     },
