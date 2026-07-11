@@ -15,39 +15,78 @@ function saveTasks(tasks) {
   fs.writeFileSync(TASK_FILE, JSON.stringify(tasks, null, 2));
 }
 
-function generateSteps(title) {
+function getTasks() {
   const lower = title.toLowerCase();
 
+  let steps;
+
   if (lower.includes("discord bot")) {
-    return [
+    steps = [
       "research Discord API requirements",
       "create project structure",
       "write bot code",
       "test bot functionality",
       "document project"
     ];
-  }
-
-  if (lower.includes("app") || lower.includes("website")) {
-    return [
+  } else if (lower.includes("app") || lower.includes("website")) {
+    steps = [
       "plan features",
       "create project structure",
       "write code",
       "test application",
       "review changes"
     ];
+  } else {
+    steps = [
+      "understand requirements",
+      "create plan",
+      "complete work",
+      "test result",
+      "review"
+    ];
   }
 
-  return [
-    "understand requirements",
-    "create plan",
-    "complete work",
-    "test result",
-    "review"
-  ];
+  return steps.map(step => ({
+    name: step,
+    status: "pending"
+  }));
 }
+function generateSteps(title) {
+  const lower = title.toLowerCase();
 
+  let steps;
 
+  if (lower.includes("discord bot")) {
+    steps = [
+      "research Discord API requirements",
+      "create project structure",
+      "write bot code",
+      "test bot functionality",
+      "document project"
+    ];
+  } else if (lower.includes("app") || lower.includes("website")) {
+    steps = [
+      "plan features",
+      "create project structure",
+      "write code",
+      "test application",
+      "review changes"
+    ];
+  } else {
+    steps = [
+      "understand requirements",
+      "create plan",
+      "complete work",
+      "test result",
+      "review"
+    ];
+  }
+
+  return steps.map(step => ({
+    name: step,
+    status: "pending"
+  }));
+}
 function addTask(title, steps = null) {
   const tasks = loadTasks();
 
@@ -64,7 +103,6 @@ function addTask(title, steps = null) {
 
   return task;
 }
-
 function getTasks() {
   return loadTasks();
 }
@@ -89,7 +127,25 @@ function completeTask(id) {
 
   return task;
 }
+function completeStep(taskId, stepName) {
+  const tasks = loadTasks();
 
+  const task = tasks.find(t => t.id === taskId);
+
+  if (!task) {
+    return null;
+  }
+
+  const step = task.steps.find(
+    s => s.name === stepName
+  );
+
+  if (!step) {
+    return null;
+  }
+
+  step.status = "completed";
+  }
 module.exports = {
   addTask,
   getTasks,
