@@ -3,6 +3,19 @@
   "project": "Rev-9",
   "skills": [
     {
+      "name": "task_manager",
+      "description": "Manage task queue",
+      "triggers": [
+        "add task",
+        "show tasks",
+        "next task",
+        "complete task",
+        "tasks"
+      ],
+      "risk": "low",
+      "status": "active"
+    },
+    {
       "name": "system-info",
       "description": "Shows Rev-9 capabilities and validates configuration.",
       "triggers": [
@@ -12,8 +25,8 @@
         "system status",
         "health check"
       ],
-      "inputs": [
-        "query"
+   "inputs": [
+     "query"
       ],
       "outputs": [
         "status",

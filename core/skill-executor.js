@@ -7,6 +7,7 @@ const { inspectRepo } = require("./repo-inspector");
 const { getMissingSkillReport } = require("./missing-skill-report");
 const { createSkill } = require("./skill-generator");
 const { isApproved, approveSkill } = require("./approval-memory");
+const taskManager = require("./task-manager");
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -133,11 +134,44 @@ try {
   }
 } catch (err) {
 }
+if (result.chosen_skill === "task_manager") {
 
-return {
-  executed: false,
-  message: `No executor exists yet for ${result.chosen_skill}.`
-};
+  if (requestText.startsWith("add task")) {
+    const title = requestText.replace("add task", "").trim();
+
+    return {
+      executed: true,
+      type: "task_created",
+      data: taskManager.addTask(title)
+    };
+  }
+
+  if (requestText.includes("show tasks")) {
+    return {
+      executed: true,
+      type: "task_list",
+      data: taskManager.getTasks()
+    };
+  }
+
+  if (requestText.includes("next task")) {
+    return {
+      executed: true,
+      type: "next_task",
+      data: taskManager.getNextTask()
+    };
+  }
+
+  if (requestText.startsWith("complete")) {
+    const id = requestText.replace("complete", "").trim();
+
+    return {
+      executed: true,
+      type: "task_completed",
+      data: taskManager.completeTask(id)
+    };
+  }
+}
 return {
     executed: false,
     message: `No executor exists yet for ${result.chosen_skill}.`
