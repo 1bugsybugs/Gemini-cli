@@ -146,9 +146,65 @@ function completeStep(taskId, stepName) {
 
   step.status = "completed";
   }
+function normalizeSteps(steps) {
+  if (!Array.isArray(steps)) {
+    return [];
+  }
+
+  return steps.map(step => {
+    if (typeof step === "string") {
+      return {
+        name: step,
+        status: "pending"
+      };
+    }
+
+    return step;
+  });
+}
+function getTaskProgress() {
+  const tasks = loadTasks();
+
+  return tasks.map(task => {
+    if (!Array.isArray(task.steps) || task.steps.length === 0) {
+      return {
+        title: task.title,
+        status: task.status,
+        progress: 0,
+        steps: task.steps
+      };
+    }
+
+    const stepObjects = normalizeSteps(task.steps);
+
+    if (stepObjects.length === 0) {
+      return {
+        title: task.title,
+        status: task.status,
+        progress: 0,
+        steps: task.steps
+      };
+    }
+
+    const completed = stepObjects.filter(
+      step => step.status === "completed"
+    ).length;
+
+    return {
+      title: task.title,
+      status: task.status,
+      progress: Math.round(
+        (completed / stepObjects.length) * 100
+      ),
+      steps: task.steps
+    };
+  });
+}
 module.exports = {
   addTask,
   getTasks,
   getNextTask,
-  completeTask
+  completeTask,
+  completeStep,
+  getTaskProgress
 };

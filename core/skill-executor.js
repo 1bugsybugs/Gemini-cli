@@ -8,6 +8,7 @@ const { getMissingSkillReport } = require("./missing-skill-report");
 const { createSkill } = require("./skill-generator");
 const { isApproved, approveSkill } = require("./approval-memory");
 const taskManager = require("./task-manager");
+const tasks = taskManager.getTaskProgress();
 
 function executeSkill(result, requestText) {
   if (!result.matched) {
@@ -135,9 +136,15 @@ try {
 } catch (err) {
 }
 if (result.chosen_skill === "task_manager") {
-if (requestText.includes("show task progress") || requestText.includes("task progress") || requestText.includes("progress")) {
-  const tasks = taskManager.getTasks();
 
+if (requestText.includes("show task progress") || requestText.includes("task progress") || requestText.includes("progress")) {
+  const tasks = taskManager.getTaskProgress();
+
+return {
+  executed: true,
+  type: "task_progress",
+  data: tasks
+};
   return {
     executed: true,
     type: "task_progress",
