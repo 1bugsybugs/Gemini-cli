@@ -15,7 +15,40 @@ function saveTasks(tasks) {
   fs.writeFileSync(TASK_FILE, JSON.stringify(tasks, null, 2));
 }
 
-function addTask(title, steps = []) {
+function generateSteps(title) {
+  const lower = title.toLowerCase();
+
+  if (lower.includes("discord bot")) {
+    return [
+      "research Discord API requirements",
+      "create project structure",
+      "write bot code",
+      "test bot functionality",
+      "document project"
+    ];
+  }
+
+  if (lower.includes("app") || lower.includes("website")) {
+    return [
+      "plan features",
+      "create project structure",
+      "write code",
+      "test application",
+      "review changes"
+    ];
+  }
+
+  return [
+    "understand requirements",
+    "create plan",
+    "complete work",
+    "test result",
+    "review"
+  ];
+}
+
+
+function addTask(title, steps = null) {
   const tasks = loadTasks();
 
   const task = {
@@ -23,7 +56,7 @@ function addTask(title, steps = []) {
     title,
     status: "pending",
     createdAt: new Date().toISOString(),
-    steps
+    steps: steps || generateSteps(title)
   };
 
   tasks.push(task);
