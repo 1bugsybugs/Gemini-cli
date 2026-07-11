@@ -89,7 +89,15 @@ function generateSteps(title) {
 }
 function addTask(title, steps = null) {
   const tasks = loadTasks();
+const existing = tasks.find(
+  task =>
+    task.title.toLowerCase() === title.toLowerCase() &&
+    task.status === "pending"
+);
 
+if (existing) {
+  return existing;
+}
   const task = {
     id: `task_${Date.now()}`,
     title,
@@ -214,11 +222,79 @@ function getTaskProgress() {
     };
   });
 }
+function taskQuality(task) {
+  let score = 0;
+
+  if (Array.isArray(task.steps)) {
+    score += task.steps.length;
+  }
+
+  const text = JSON.stringify(task.steps).toLowerCase();
+
+  if (text.includes("write")) score += 2;
+  if (text.includes("code")) score += 2;
+  if (text.includes("test")) score += 2;
+  if (text.includes("document")) score += 1;
+  if (text.includes("api")) score += 2;
+  if (text.includes("project structure")) score += 1;
+  if (text.includes("review")) score += 1;
+
+  return score;
+}
+
+function cleanupDuplicateTasks() {
+  const tasks = loadTasks();
+  const groups = {};
+
+  for (const task of tasks) {
+    const key = task.title.toLowerCase();
+
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+
+    groups[key].push(task);
+  }
+
+  const cleaned = [];
+
+  for (const key in groups) {
+    const group = groups[key];
+
+    if (group.length === 1) {
+      cleaned.push(group[0]);
+      continue;
+    }
+
+    let best = group[0];
+
+for (const task of group) {
+  if (taskQuality(task) > taskQuality(best)) {
+    best = task;
+  }
+}
+
+best.status = "pending";
+
+    for (const task of group) {
+      if (task.id !== best.id) {
+        task.status = "archived";
+      }
+    }
+
+    cleaned.push(...group);
+  }
+
+  saveTasks(cleaned);
+
+  return cleaned;
+}
 module.exports = {
   addTask,
   getTasks,
   getNextTask,
   completeTask,
   completeStep,
-  getTaskProgress
+  getTaskProgress,
+  cleanupDuplicateTasks
 };
